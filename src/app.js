@@ -117,11 +117,11 @@ app.get("/loggerTest", (req, res) => {
     req.logger.FATAL("Hola");
     req.logger.ERROR("Hola");
     req.logger.INFO("Hola");
-    req.logger.WARN("Hols");
+    req.logger.WARN("Hola");
     req.logger.DEBUG("Hola");
     res.status(200).send("Log generado correctamente");
   } catch (error) {
-    console.error("Error al generar el log:", error);
+    req.logger.ERROR("Error al generar el log:", error);
     res.status(500).send("Error al generar el log");
   }
 });

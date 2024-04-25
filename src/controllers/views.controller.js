@@ -32,6 +32,7 @@ export async function realTimeProducts(req, res) {
       res.status(200).redirect("/products");
     }
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.messages);
   }
 }
@@ -47,6 +48,7 @@ export async function chat(req, res) {
     const messages = await mm.getMessages();
     res.render("chat", { messages });
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.messages);
   }
 }
@@ -63,6 +65,7 @@ export async function getUserCart(req, res) {
     });
     res.render("inCart", { cartJSON, cartId, amount });
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.messages);
   }
 }
@@ -96,6 +99,7 @@ export async function productsView(req, res) {
       res.status(401).render("login", { msg });
     }
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.messages);
   }
 }
@@ -143,6 +147,7 @@ export async function registerView(req, res) {
       res.render("register");
     }
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.messages);
   }
 }

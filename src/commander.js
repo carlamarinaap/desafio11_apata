@@ -8,5 +8,3 @@ program.parse();
 
 export let port = program.opts().p;
 export let mode = program.opts().mode;
-
-console.log(port, mode);

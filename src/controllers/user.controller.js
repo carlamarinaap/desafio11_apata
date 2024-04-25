@@ -19,6 +19,7 @@ export async function register(req, res, next) {
       });
       res.redirect("/products");
     } catch (error) {
+      req.logger.ERROR(error.message);
       next(error);
     }
   })(req, res, next);
@@ -42,6 +43,7 @@ export async function login(req, res, next) {
         })
         .redirect("/products");
     } catch (error) {
+      req.logger.ERROR(error.message);
       next(error);
     }
   })(req, res, next);
@@ -53,6 +55,7 @@ export async function logout(req, res) {
     let msg = "Se cerró la sesión";
     res.render("login", { msg });
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.message);
   }
 }
@@ -66,6 +69,7 @@ export async function passwordRestore(req, res) {
       res.redirect("/login");
     }
   } catch (error) {
+    req.logger.ERROR(error.message);
     res.status(500).send(error.message);
   }
 }
