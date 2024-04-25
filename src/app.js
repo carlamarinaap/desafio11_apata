@@ -50,13 +50,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.privateKey));
 
-let addLogger;
 if (config.logger === "logger_dev") {
-  addLogger = addLoggerDev;
+  app.use(addLoggerDev);
 } else {
-  addLogger = addLoggerProd;
+  app.use(addLoggerProd);
 }
-app.use(addLogger);
 
 //Database
 mongoose.connect(config.mongoUrl);
@@ -124,4 +122,14 @@ socketServer.on("connection", (socket) => {
     const messages = await mm.getMessages();
     socketServer.emit("chat", messages);
   });
+});
+
+app.get("/loggerTest", (req, res) => {
+  try {
+    req.logger.error("Hola");
+    res.status(200).send("Log generado correctamente");
+  } catch (error) {
+    console.error("Error al generar el log:", error);
+    res.status(500).send("Error al generar el log");
+  }
 });

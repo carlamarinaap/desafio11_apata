@@ -9,23 +9,15 @@ const customLevelOptions = {
     http: 4,
     debug: 5,
   },
-  colors: {
-    fatal: "red",
-    error: "orange",
-    warning: "yellow",
-    info: "blue",
-    debug: "white",
-  },
 };
 
 const logger = winston.createLogger({
+  levels: customLevelOptions.levels,
+  level: "debug",
   transports: [
     new winston.transports.Console({
       level: "debug",
-      format: winston.format.combine(
-        winston.format.colorize({ colors: customLevelOptions.colors }),
-        winston.format.simple()
-      ),
+      format: winston.format.combine(winston.format.simple()),
     }),
   ],
 });
