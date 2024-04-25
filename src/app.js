@@ -15,6 +15,8 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import { addLoggerDev } from "./logger_dev.js";
+import { addLoggerProd } from "./logger_prod.js";
 
 // Managers
 import ProductManager from "./dao/manager_mongo/productManager.js";
@@ -30,7 +32,6 @@ import { __dirname } from "./utils.js";
 import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
 import { Command } from "commander";
-import ProductDTO from "./dao/dto/products.dto.js";
 import { productService } from "./repositories/index.js";
 
 const program = new Command();
@@ -48,6 +49,14 @@ const socketServer = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.privateKey));
+
+let addLogger;
+if (config.logger === "logger_dev") {
+  addLogger = addLoggerDev;
+} else {
+  addLogger = addLoggerProd;
+}
+app.use(addLogger);
 
 //Database
 mongoose.connect(config.mongoUrl);
