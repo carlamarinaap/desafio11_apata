@@ -15,8 +15,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import { addLoggerDev } from "./logger_dev.js";
-import { addLoggerProd } from "./logger_prod.js";
+import { addLogger } from "./logger.js";
 
 // Managers
 import ProductManager from "./dao/manager_mongo/productManager.js";
@@ -31,17 +30,10 @@ import routerViews from "./routes/views.router.js";
 import { __dirname } from "./utils.js";
 import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
-import { Command } from "commander";
 import { productService } from "./repositories/index.js";
-
-const program = new Command();
-program
-  .option("-p <port>", "Server port", 8080)
-  .option("--mode <mode>", "Work mode", "production");
-program.parse();
+import { port } from "./commander.js";
 
 const app = express();
-export let port = program.opts().p;
 
 const httpServer = app.listen(port, () => console.log("Server running in port " + port));
 const socketServer = new Server(httpServer);
@@ -50,11 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.privateKey));
 
-if (config.logger === "logger_dev") {
-  app.use(addLoggerDev);
-} else {
-  app.use(addLoggerProd);
-}
+app.use(addLogger);
 
 //Database
 mongoose.connect(config.mongoUrl);
@@ -126,7 +114,11 @@ socketServer.on("connection", (socket) => {
 
 app.get("/loggerTest", (req, res) => {
   try {
-    req.logger.error("Hola");
+    req.logger.FATAL("Hola");
+    req.logger.ERROR("Hola");
+    req.logger.INFO("Hola");
+    req.logger.WARN("Hols");
+    req.logger.DEBUG("Hola");
     res.status(200).send("Log generado correctamente");
   } catch (error) {
     console.error("Error al generar el log:", error);

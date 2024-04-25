@@ -4,7 +4,7 @@ import CartsManager from "../dao/manager_mongo/cartsManager.js";
 import jwt from "jsonwebtoken";
 import userSchema from "../dao/models/user.schema.js";
 import config from "../config/config.js";
-import { port } from "../app.js";
+import { port } from "../commander.js";
 import { productService } from "../repositories/index.js";
 
 const pm = new ProductManager();

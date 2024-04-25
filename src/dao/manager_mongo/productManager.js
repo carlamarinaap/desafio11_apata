@@ -1,4 +1,4 @@
-import { port } from "../../app.js";
+import { port } from "../../commander.js";
 import { DuplicateCode, IncompleteFields, NotFound } from "../../test/customError.js";
 import productSchema from "../models/product.schema.js";
 

@@ -1,9 +1,8 @@
 import dotenv from "dotenv";
-
-const environment = "DEVELOPMENT";
+import { mode } from "../commander.js";
 
 dotenv.config({
-  path: environment === "DEVELOPMENT" ? "./.env.development" : "./.env.production",
+  path: `./.env.${mode}`,
 });
 
 export default {

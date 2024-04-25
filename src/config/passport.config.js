@@ -5,7 +5,7 @@ import { Strategy as JwtStrategy } from "passport-jwt";
 import cartManager from "../dao/manager_mongo/cartsManager.js";
 import jwt from "jsonwebtoken";
 import config from "./config.js";
-import { port } from "../app.js";
+import { port } from "../commander.js";
 import { userService } from "../repositories/index.js";
 
 const cm = new cartManager();
